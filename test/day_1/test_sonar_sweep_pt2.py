@@ -16,7 +16,7 @@ TEST_INPUT = """199
 """
 
 
-class TestSonarSweepPart1(STDIOTest):
+class TestSonarSweepPart2(STDIOTest):
 
     def test_with_sample_input(self):
         self.assert_stdin_n_out(main, TEST_INPUT, "5\n")
