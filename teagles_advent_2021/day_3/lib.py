@@ -17,7 +17,7 @@ def digify(binary_tuple):
 
 
 def undigify(numeric_tuple):
-    return tuple(map(lambda d: d > 0, numeric_tuple))
+    return tuple(map(lambda d: d > -1, numeric_tuple))
 
 
 def tuplewise_add(a, b):
@@ -35,3 +35,15 @@ def tuplewise_not(b_tuple):
 def intify_binary_tuple(b_tuple):
     b = array(b_tuple, dtype=bool)
     return b.dot(2**arange(b.size)[::-1])
+
+
+def cursive_filter(b_tuples, plussy, iteration=0):
+    nth_common_bit = common_bits(map(lambda t: tuple([t[iteration]]), b_tuples))[0]
+    qualifier = nth_common_bit if plussy else not nth_common_bit
+    candidates = list(filter(lambda bt: bt[iteration] == qualifier, b_tuples))
+    if len(candidates) == 1:
+        return candidates[0]
+    else:
+        return cursive_filter(candidates, plussy, iteration + 1)
+
+
