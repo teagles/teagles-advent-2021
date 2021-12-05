@@ -1,23 +1,32 @@
 import unittest
 
-from teagles_advent_2021.day_5.lib import Line, Point, horizontal, points_from_line, parse_line
+from teagles_advent_2021.day_5.lib import Line, Point, orientation, points_from_line, parse_line, HORIZONTAL, VERTICAL, POS_DIAGONAL, NEG_DIAGONAL
 
 
 class TestDay5Lib(unittest.TestCase):
-    def test_horizontal(self):
-        expectation = True
-        reality = horizontal(Line(9, 7, 7, 7))
+    def test_orientation(self):
+        expectation = HORIZONTAL
+        reality = orientation(Line(9, 7, 7, 7))
         self.assertEqual(expectation, reality)
-        expectation = False
-        reality = horizontal(Line(1, 1, 1, 3))
+        expectation = VERTICAL
+        reality = orientation(Line(1, 1, 1, 3))
+        self.assertEqual(expectation, reality)
+        expectation = POS_DIAGONAL
+        reality = orientation(Line(1, 1, 3, 3))
         self.assertEqual(expectation, reality)
 
     def test_points_from_line(self):
-        expectation = set([Point(9, 7), Point(8, 7), Point(7, 7)])
+        expectation = {Point(9, 7), Point(8, 7), Point(7, 7)}
         reality = set(points_from_line(Line(9, 7, 7, 7)))
         self.assertEqual(expectation, reality)
-        expectation = set([Point(1, 1), Point(1, 2), Point(1, 3)])
+        expectation = {Point(1, 1), Point(1, 2), Point(1, 3)}
         reality = set(points_from_line(Line(1, 1, 1, 3)))
+        self.assertEqual(expectation, reality)
+        expectation = {Point(1, 1), Point(2, 2), Point(3, 3)}
+        reality = set(points_from_line(Line(1, 1, 3, 3)))
+        self.assertEqual(expectation, reality)
+        expectation = {Point(9, 7), Point(8, 8), Point(7, 9)}
+        reality = set(points_from_line(Line(9, 7, 7, 9)))
         self.assertEqual(expectation, reality)
 
     def test_parse_line(self):
