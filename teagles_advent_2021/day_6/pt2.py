@@ -1,7 +1,5 @@
 import sys
 
-from .lib import noop
-
 
 def main():
     print()
