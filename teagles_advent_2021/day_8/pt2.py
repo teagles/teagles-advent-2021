@@ -1,6 +1,6 @@
 import sys
 
-from .lib import noop
+# from .lib import noop
 
 
 def main():
