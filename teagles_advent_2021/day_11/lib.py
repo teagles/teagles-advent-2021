@@ -3,7 +3,7 @@ from operator import add
 
 from teagles_advent_2021.day_9.lib import parse_input, Point, valid
 
-CumulativeState = namedtuple('CumulativeState', ['matrix', 'flashes'])
+CumulativeState = namedtuple('CumulativeState', ['matrix', 'cumulative_flashes', 'last_flashes'])
 _ADJACENCIES = [Point(1, 0), Point(0, 1), Point(-1, 0), Point(0, -1), Point(1, 1), Point(-1, -1), Point(1, -1),
                 Point(-1, 1)]
 
@@ -19,7 +19,7 @@ def _flash(matrix, point, flashed):
 
 
 def step(cumulative_state):
-    flashes = cumulative_state.flashes
+    flashes = 0
     # increment
     for row in range(len(cumulative_state.matrix)):
         for col in range(len(cumulative_state.matrix[row])):
@@ -37,4 +37,4 @@ def step(cumulative_state):
             if cumulative_state.matrix[row][col] > 9:
                 cumulative_state.matrix[row][col] = 0
                 flashes += 1
-    return CumulativeState(cumulative_state.matrix, flashes)
+    return CumulativeState(cumulative_state.matrix, cumulative_state.cumulative_flashes + flashes, flashes)

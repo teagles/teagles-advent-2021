@@ -35,18 +35,18 @@ class TestDay11Lib(unittest.TestCase):
                                        [4, 0, 0, 0, 4],
                                        [5, 0, 0, 0, 5],
                                        [4, 0, 0, 0, 4],
-                                       [3, 4, 5, 4, 3]], 9)
+                                       [3, 4, 5, 4, 3]], 9, 9)
         reality = step(CumulativeState([[1, 1, 1, 1, 1],
                                         [1, 9, 9, 9, 1],
                                         [1, 9, 1, 9, 1],
                                         [1, 9, 9, 9, 1],
-                                        [1, 1, 1, 1, 1]], 0))
+                                        [1, 1, 1, 1, 1]], 0, None))
         self.assertEqual(expectation, reality)
         expectation = CumulativeState([[4, 5, 6, 5, 4],
                                        [5, 1, 1, 1, 5],
                                        [6, 1, 1, 1, 6],
                                        [5, 1, 1, 1, 5],
-                                       [4, 5, 6, 5, 4]], 9)
+                                       [4, 5, 6, 5, 4]], 9, 0)
         reality = step(reality)
         self.assertEqual(expectation, reality)
 
