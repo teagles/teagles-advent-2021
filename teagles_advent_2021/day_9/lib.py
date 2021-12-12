@@ -2,7 +2,7 @@ from collections import namedtuple
 from functools import reduce
 from operator import add, and_
 
-TargetAndNeighbors = namedtuple('TargetAndNeighbors', ['target', 'neighbors'])
+TargetAndNeighbors = namedtuple('TargetAndNeighbors', ['target', 'neighbors', 'co_ords'])
 Point = namedtuple('Point', ['row', 'col'])
 _ADJACENCIES = [Point(1, 0), Point(0, 1), Point(-1, 0), Point(0, -1)]
 
@@ -24,7 +24,7 @@ def neighbors(matrix, point):
         p = Point(*map(add, direction, point))
         if valid(p, matrix):
             targets_neighbors.append(matrix[p.row][p.col])
-    return TargetAndNeighbors(matrix[point.row][point.col], frozenset(targets_neighbors))
+    return TargetAndNeighbors(matrix[point.row][point.col], frozenset(targets_neighbors), point)
 
 
 def low_point(target_and_neighbors):
@@ -42,3 +42,21 @@ def points_with_neighbors(matrix):
     for row in range(len(matrix)):
         for col in range(len(matrix[row])):
             yield neighbors(matrix, Point(row, col))
+
+
+def flood_fill_from_point(matrix, point, basin, seen):
+    for direction in _ADJACENCIES:
+        p = Point(*map(add, direction, point))
+        if valid(p, matrix):
+            if p not in seen:
+                seen.add(p)
+                if matrix[p.row][p.col] != 9:
+                    basin.add(p)
+                    flood_fill_from_point(matrix, p, basin, seen)
+
+
+def get_basin(matrix, point):
+    basin = set([point])
+    seen = set([point])
+    flood_fill_from_point(matrix, point, basin, seen)
+    return basin
