@@ -49,7 +49,28 @@ class CaveSystem:
             paths_from_here = []
             for c in cave.connections:
                 if c not in visited_small_caves:
-                    paths_from_here.extend(self.traverse(c, path_to_here.copy() + [target_cave], new_visited_small_caves))
+                    paths_from_here.extend(
+                        self.traverse(c, path_to_here.copy() + [target_cave], new_visited_small_caves))
+            return paths_from_here
+
+    def traverse_2(self, target_cave, path_to_here, visited_small_caves, revisited_small_cave):
+        if target_cave == END_STR:
+            return [tuple(path_to_here + [END_STR])]
+        else:
+            cave = self.get_cave(target_cave)
+            if cave.is_small:
+                new_visited_small_caves = frozenset().union(visited_small_caves, frozenset([target_cave]))
+            else:
+                new_visited_small_caves = visited_small_caves
+            paths_from_here = []
+            for c in cave.connections:
+                if c not in visited_small_caves:
+                    paths_from_here.extend(self.traverse_2(c, path_to_here.copy() + [target_cave],
+                                                           new_visited_small_caves, revisited_small_cave))
+                elif c != START_STR and not revisited_small_cave:
+                    paths_from_here.extend(
+                        self.traverse_2(c, path_to_here.copy() + [target_cave], new_visited_small_caves,
+                                        c))
             return paths_from_here
 
 
